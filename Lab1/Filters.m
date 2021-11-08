@@ -2,9 +2,7 @@
 wc = input('Ingrese el valor de wc = ');
 wm = input('Ingrese el valor de wm, debe ser mayor a wc = ');
 
-
-H_LPF = @(t) heaviside(t+wc) - heaviside(t-wc);
-H_LPF_2 = @(t) (abs(t) <= wc);
+H_LPF = @(t) (abs(t) <= wc);
 H_HPF = @(t) (abs(t) >= wc);
 H_BPF = @(t) (wc <= abs(t) & abs(t) <= wm);
 H_BSF = @(t) ~(wc <= abs(t) & abs(t) < wm);
@@ -21,7 +19,7 @@ stem(t,abs(ifft(ifftshift(X./Ts))))
 
 %*******************************
 %Subplot LPF 
-lowFilter = fftshift(abs(X)).*H_LPF_2(f-(0.5));
+lowFilter = fftshift(abs(X)).*H_LPF(f-(0.5));
 subplot(6,2,5);
 stem(f-(0.5),lowFilter)
 
