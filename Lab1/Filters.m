@@ -1,10 +1,9 @@
-[X, t,f0,fs,Ts, f] = Punto2;
+[X, t,f0,fs,Ts, f, a] = Punto2;
 wc = input('Ingrese el valor de wc = ');
-wm = input('Ingrese el valor de wm = ');
+wm = input('Ingrese el valor de wm, debe ser mayor a wc = ');
 
-
-%H_LPF = @(t) heaviside(t+wc) - heaviside(t-wc);
 H_LPF_2 = @(t) (abs(t) <= wc);
+H_LPF = @(t) (abs(t) <= wc);
 H_HPF = @(t) (abs(t) >= wc);
 H_BPF = @(t) (wc <= abs(t) & abs(t) <= wm);
 H_BSF = @(t) ~(wc <= abs(t) & abs(t) < wm);
