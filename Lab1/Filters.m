@@ -1,6 +1,6 @@
 [X, t,f0,fs,Ts, f] = Punto2;
 wc = input('Ingrese el valor de wc = ');
-wm = input('Ingrese el valor de wm = ');
+wm = input('Ingrese el valor de wm, debe ser mayor a wc = ');
 
 
 H_LPF = @(t) heaviside(t+wc) - heaviside(t-wc);
