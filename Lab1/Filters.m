@@ -3,7 +3,7 @@ wc = input('Ingrese el valor de wc = ');
 wm = input('Ingrese el valor de wm = ');
 
 
-H_LPF = @(t) heaviside(t+wc) - heaviside(t-wc);
+%H_LPF = @(t) heaviside(t+wc) - heaviside(t-wc);
 H_LPF_2 = @(t) (abs(t) <= wc);
 H_HPF = @(t) (abs(t) >= wc);
 H_BPF = @(t) (wc <= abs(t) & abs(t) <= wm);
@@ -14,52 +14,52 @@ H_BSF = @(t) ~(wc <= abs(t) & abs(t) < wm);
 
 %Subplot Frecuencia total
 subplot(6,2,[1 , 2]);
-stem(f-(0.5),fftshift(abs(X)),'-b')
-
+plot(f-(0.5),fftshift(abs(X)),'-b')
+axis([-80 80 -5 20]);
 subplot(6,2,[3, 4]);
-stem(t,abs(ifft(ifftshift(X./Ts))))
-
+plot(t,abs(ifft(X./Ts)))
+axis([-2*a 2*a -1 2]);
 %*******************************
 %Subplot LPF 
-lowFilter = fftshift(abs(X)).*H_LPF_2(f-(0.5));
+lowFilter = fftshift(X).*H_LPF_2(f-(0.5));
 subplot(6,2,5);
-stem(f-(0.5),lowFilter)
-
+plot(f-(0.5),abs(lowFilter))
+axis([-40 40 -5 10]);
 %Subplot LPF Pulse
 subplot(6,2,6);
-stem(t,abs(ifft(ifftshift(lowFilter./Ts))))
-
+plot(t,abs(ifft(ifftshift(lowFilter./Ts))))
+axis([-2*a 2*a -1 2]);
 %******************************
 %Subplot HPF 
-highFilter = fftshift(abs(X)).*H_HPF(f-(0.5));
+highFilter = fftshift(X).*H_HPF(f-(0.5));
 subplot(6,2,7);
-stem(f-(0.5),highFilter)
-
+plot(f-(0.5),abs(highFilter))
+axis([-40 40 -5 20]);
 %Subplot HPF Pulse
 subplot(6,2,8);
-stem(t,abs(ifft(ifftshift(highFilter./Ts))))
+plot(t,abs(ifft(ifftshift(highFilter./Ts))))
 
-
+axis([-2*a 2*a -1 2]);
 %******************************
 %Subplot BPF 
-PassBandFilter = fftshift(abs(X)).*H_BPF(f-(0.5));
+PassBandFilter = fftshift(X).*H_BPF(f-(0.5));
 subplot(6,2,9);
-stem(f-(0.5),PassBandFilter)
-
+plot(f-(0.5),abs(PassBandFilter))
+axis([-40 40 -5 20]);
 %Subplot BPF Pulse
 subplot(6,2,10);
-stem(t,abs(ifft(ifftshift(PassBandFilter./Ts))))
-
+plot(t,abs(ifft(ifftshift(PassBandFilter./Ts))))
+axis([-2*a 2*a -1 2]);
 %******************************
 %Subplot BSF 
-bandStopFilter = fftshift(abs(X)).*H_BSF(f-(0.5));
+bandStopFilter = fftshift(X).*H_BSF(f-(0.5));
 subplot(6,2,11);
-stem(f-(0.5),bandStopFilter)
-
+plot(f-(0.5),abs(bandStopFilter))
+axis([-40 40 -5 20]);
 %Subplot BSF Pulse
 subplot(6,2,12);
-stem(t,abs(ifft(ifftshift(bandStopFilter./Ts))))
-
+plot(t,abs(ifft(ifftshift(bandStopFilter./Ts))))
+axis([-2*a 2*a -1 2]);
 
 
 
