@@ -1,5 +1,6 @@
 function[] = Punto1R(f)
-a = input('Ingrese el punto de inicio = ');
+
+a = input('Ingrese el valor de inicio = ');
 T = input('Ingrese el periodo T = ');
 
 t = [a:0.001:T+a];
