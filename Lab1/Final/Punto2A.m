@@ -1,6 +1,5 @@
 function [X, t, f0, fs, Ts, f, a] = Punto2()
 a = input('Ingrese el valor de a = ');
-T=4*a;                              %Duración de la señal
 f0=1;                               %Valor de la frecuencia lineal
 fs=100*f0; Ts=1/fs;                 %Intervalo de muestreo y frecuencia de muestreo
 t= [-10*a:Ts:10*a];                 %Vector de tiempo
@@ -19,10 +18,11 @@ legend('X(t)');
 grid;
 
 % FFT del pulso rectangular
+subplot(2,2,[3 4]); 
 omega = [-8*a:0.01:8*a];
 sa=inline('(sin(x)+(x==0))./(x+(x==0))','x'); 	% Genera la función sa(x)=sin(x)/x.
-
-subplot(2,2,[3 4]); plot(f,fftshift(abs(X)),'-b'); axis([-20 20 -5 20]);
+plot(omega,2*a*sa(a*omega),'--g',f,fftshift(abs(X)),'-b'); axis([-20 20 -5 20]); % Gráfica FFT Analítica y Computacional
+legend('fft', 'x(w)');
 xlabel('f'); 
 ylabel('|X(f)|');
 title('FFT Fourier Transform Comparison');
@@ -31,9 +31,6 @@ ax = gca;
 ax.XAxisLocation = 'origin';
 ax.YAxisLocation = 'origin';
 
-%subplot(2,2,4); 
-hold on;
-plot(omega,2*a*sa(a*omega),'--g'); axis([-20 20 -5 20]); % Gráfica FFT Analítica
-legend('fft', 'x(w)');
+
 
 end
