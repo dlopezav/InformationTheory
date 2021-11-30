@@ -16,8 +16,8 @@ ax.YAxisLocation = 'origin';
 
 %Cuantización
 xmax=1
-n=4
-xq=cuantUniforme(x,4,n);            % sinusoidal cuantizada y su transformada de Fourier
+n=3
+xq=cuantUniforme(x,xmax,n);            % sinusoidal cuantizada y su transformada de Fourier
 
 
 figure(2);
@@ -42,7 +42,7 @@ L = 2^n;
 ranges = linspace(-xmax,xmax,L+1) % Niveles de cuantización
 figure(3);
 plot(t,x,"color","black"); %Función xt
-title("Sinusoidal y Sinusoidal cuantificada");
+title("Sinusoidal cuantificada CODIFICACIÓN");
 xlabel("x");
 ylabel("F(x)");
 hold on;
@@ -73,7 +73,7 @@ finalbinary;
 amplitud = 1;
 
 %Unipolar NRZ.
-subplot(2,3,1);
+subplot(3,1,1);
 t2=[0:0.01:length(finalbinary)];  
 plot(t2,NRZ(finalbinary,1)); axis([0 length(x) -.5 (amplitud+.5)]);xlabel('t'); ylabel('NRZ');title("Unipolar NRZ");
 ax = gca;
@@ -82,7 +82,7 @@ ax.YAxisLocation = 'origin';
 grid;
 
 %Bipolar NRZ.
-subplot(2,3,2);
+subplot(3,1,2);
 plot(t2,BNRZ(finalbinary,1)); axis([0 length(x) (-amplitud-.5) (amplitud+.5)]);xlabel('t'); ylabel('BNRZ');title("Bipolar NRZ");
 ax = gca;
 ax.XAxisLocation = 'origin';
@@ -90,7 +90,7 @@ ax.YAxisLocation = 'origin';
 grid;
 
 %Unipolar RZ
-subplot(2,3,3);
+subplot(3,1,3);
 plot(t2,RZ(finalbinary,1)); axis([0 length(x) -.5 (amplitud+.5)]);xlabel('t'); ylabel('URZ');title("Unipolar RZ");
 ax = gca;
 ax.XAxisLocation = 'origin';
@@ -98,7 +98,8 @@ ax.YAxisLocation = 'origin';
 grid;
 
 %Bipolar RZ
-subplot(2,3,4);
+figure(5)
+subplot(3,1,1);
 plot(t2,BRZ(finalbinary,1)); axis([0 length(x) (-amplitud-.5)  (amplitud+.5)]);xlabel('t'); ylabel('BRZ');title("Bipolar RZ");
 %t2=[0:0.01:6]; 
 %plot(t2,BRZ([1 1 1 0 0 0],1));
@@ -108,7 +109,7 @@ ax.YAxisLocation = 'origin';
 grid;
 
 %AMI
-subplot(2,3,5);
+subplot(3,1,2);
 plot(t2,AMI(finalbinary,1)); axis([0 length(x) (-amplitud-.5)  (amplitud+.5)]);xlabel('t'); ylabel('AMI');title("AMI");
 ax = gca;
 ax.XAxisLocation = 'origin';
@@ -116,7 +117,7 @@ ax.YAxisLocation = 'origin';
 grid;
 
 %MANCHESTER
-subplot(2,3,6);
+subplot(3,1,3);
 plot(t2,MANCHESTER(finalbinary,1)); axis([0 length(x) (-amplitud-.5)  (amplitud+.5)]);xlabel('t'); ylabel('MANCHESTER');title("MANCHESTER");
 ax = gca;
 ax.XAxisLocation = 'origin';
@@ -139,7 +140,7 @@ for i = 1:length(t)
   end
 end
 
-figure(5)
+figure(6);
 %Grafica de la demodulación
 plot(t, deMod); xlabel("t"); ylabel("m(t)"); title("Resultado demodulado");
 ax = gca;
