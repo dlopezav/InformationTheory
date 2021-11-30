@@ -1,11 +1,11 @@
 
 % Muestreo
 t0=1;                                                                     % duración de la señal
-Ts=1/100; fs=1/Ts;                                                 % intervalo de muestreo y frecuencia de muestreo
+Ts=1/50; fs=1/Ts;                                                 % intervalo de muestreo y frecuencia de muestreo
 t=[0:Ts:t0];                                                           % vector de tiempo
-
+fm=2;
 %fM = 4, fs = 100, fs>fM
-x=sin(2*pi*2*t); X=fft(x)*Ts;                                  % sinusoidal muestreada y su transformada de Fourier
+x=sin(2*pi*fm*t); X=fft(x)*Ts;                                  % sinusoidal muestreada y su transformada de Fourier
 figure(1)
 stem(t,x)
 xlabel('Tiempo'); ylabel('x(nT_s)'); title('Muestreo');grid;
@@ -17,22 +17,26 @@ ax.YAxisLocation = 'origin';
 xmax=1
 n=3
 xq=cuantUniforme(x,xmax,n); Xq=fft(xq)*Ts;           % sinusoidal cuantizada y su transformada de Fourier
-f=[0:100];     % vector de frecuencias
+f=[0:50];     % vector de frecuencias
 
 figure(2);
-subplot(2,2,1); plot(t,x,'k'); axis([0 1 -1.1 1.1]); xlabel('nT_s'); ylabel('x(nT_s)');grid;
+subplot(2,2,1); stem(t,x,'k'); axis([0 1 -1.1 1.1]); xlabel('nT_s'); ylabel('x(nT_s)');grid;
+title("Sinusoidal muestreada");
 ax = gca;
 ax.XAxisLocation = 'origin';
 ax.YAxisLocation = 'origin';
 subplot(2,2,2); stem(f-(fs/2),fftshift(abs(X)),'k'); axis([-25 25 -0.6 0.6]); xlabel('f'); ylabel('|X(f)|');grid;
+title("FFT Sinusoidal muestreada");
 ax = gca;
 ax.XAxisLocation = 'origin';
 ax.YAxisLocation = 'origin';
 subplot(2,2,3); stem(t,xq,'k'); axis([0 1 -1.1 1.1]); xlabel('nT_s'); ylabel('x_q(nT_s)');grid;
+title("Sinusoidal cuantizada");
 ax = gca;
 ax.XAxisLocation = 'origin';
 ax.YAxisLocation = 'origin';
 subplot(2,2,4); stem(f-(fs/2),fftshift(abs(Xq)),'k'); axis([-25 25 -0.6 0.6]); xlabel('f'); ylabel('|X_q(f)|');grid;
+title("FFT Sinusoidal cuantizada ");
 ax = gca;
 ax.XAxisLocation = 'origin';
 ax.YAxisLocation = 'origin';
@@ -129,7 +133,7 @@ grid;
 finalbinary;
 
 deMod = t;
-w = 2*pi*fs;
+w = 2*pi*2*fs;
 
 % Recorrer cada una de las muestras 
 for i = 1:length(t)
@@ -137,7 +141,7 @@ for i = 1:length(t)
   %Ciclo for para aplicar la sumatoria de la formula 5.2
   for k = 1:length(t)
     deMod(i) = deMod(i) + (x(i) * sinc(w*(t(i)-t(k))));
-    deMod(i) = deMod(i) + (x(i) * sinc(w*(t(i)+t(k))));
+    deMod(i) = deMod(i) + (-x(i) * sinc(w*(t(i)+t(k))));
   end
 end
 
