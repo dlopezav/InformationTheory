@@ -1,11 +1,12 @@
 
 % Muestreo
-t0=1;                                                                     % duración de la señal
-Ts=1/50; fs=1/Ts;                                                 % intervalo de muestreo y frecuencia de muestreo
+t0=2*pi;                                                                     % duración de la señal
+Ts=1/10; fs=1/Ts;                                                 % intervalo de muestreo y frecuencia de muestreo
 t=[0:Ts:t0];                                                           % vector de tiempo
 fm=2;
-%fM = 4, fs = 100, fs>fM
-x=sin(2*pi*fm*t); X=fft(x)*Ts;                                  % sinusoidal muestreada y su transformada de Fourier
+%fs = 50, fs>fM
+%x=2*sin(t)+3*sin(3*t);                                % sinusoidal muestreada y su transformada de Fourier
+x=sin(t)
 figure(1)
 stem(t,x)
 xlabel('Tiempo'); ylabel('x(nT_s)'); title('Muestreo');grid;
@@ -15,28 +16,21 @@ ax.YAxisLocation = 'origin';
 
 %Cuantización
 xmax=1
-n=3
-xq=cuantUniforme(x,xmax,n); Xq=fft(xq)*Ts;           % sinusoidal cuantizada y su transformada de Fourier
-f=[0:50];     % vector de frecuencias
+n=4
+xq=cuantUniforme(x,4,n);            % sinusoidal cuantizada y su transformada de Fourier
+
 
 figure(2);
-subplot(2,2,1); stem(t,x,'k'); axis([0 1 -1.1 1.1]); xlabel('nT_s'); ylabel('x(nT_s)');grid;
+subplot(2,1,1); stem(t,x,'k');xlabel('nT_s'); ylabel('x(nT_s)');grid;
 title("Sinusoidal muestreada");
 ax = gca;
 ax.XAxisLocation = 'origin';
 ax.YAxisLocation = 'origin';
-subplot(2,2,2); stem(f-(fs/2),fftshift(abs(X)),'k'); axis([-25 25 -0.6 0.6]); xlabel('f'); ylabel('|X(f)|');grid;
-title("FFT Sinusoidal muestreada");
 ax = gca;
 ax.XAxisLocation = 'origin';
 ax.YAxisLocation = 'origin';
-subplot(2,2,3); stem(t,xq,'k'); axis([0 1 -1.1 1.1]); xlabel('nT_s'); ylabel('x_q(nT_s)');grid;
+subplot(2,1,2); stem(t,xq,'k');  xlabel('nT_s'); ylabel('x_q(nT_s)');grid;
 title("Sinusoidal cuantizada");
-ax = gca;
-ax.XAxisLocation = 'origin';
-ax.YAxisLocation = 'origin';
-subplot(2,2,4); stem(f-(fs/2),fftshift(abs(Xq)),'k'); axis([-25 25 -0.6 0.6]); xlabel('f'); ylabel('|X_q(f)|');grid;
-title("FFT Sinusoidal cuantizada ");
 ax = gca;
 ax.XAxisLocation = 'origin';
 ax.YAxisLocation = 'origin';
@@ -61,7 +55,7 @@ for i=0:L-1
   integer = int2str(i); %Represetación entera
   binary = dec2bin(i,n); %Representación binaria
   txt = strcat(integer,", (",binary,")"); %Ytick de la codificación
-  text(1.01,(ranges(i+1)+ranges(i+2))/2,txt) %Puntos medios (Niveles de cuantificación)
+  text(2*pi+1,(ranges(i+1)+ranges(i+2))/2,txt); %Puntos medios (Niveles de cuantificación)
 end
 figure(4);
 
