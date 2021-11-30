@@ -6,6 +6,12 @@ t=[0:Ts:t0];                                                           % vector 
 
 %fM = 4, fs = 100, fs>fM
 x=sin(2*pi*2*t); X=fft(x)*Ts;                                  % sinusoidal muestreada y su transformada de Fourier
+figure(1)
+stem(t,x)
+xlabel('Tiempo'); ylabel('x(nT_s)'); title('Muestreo');grid;
+ax = gca;
+ax.XAxisLocation = 'origin';
+ax.YAxisLocation = 'origin';
 
 %Cuantización
 xmax=1
@@ -13,7 +19,7 @@ n=3
 xq=cuantUniforme(x,xmax,n); Xq=fft(xq)*Ts;           % sinusoidal cuantizada y su transformada de Fourier
 f=[0:100];     % vector de frecuencias
 
-figure(1);
+figure(2);
 subplot(2,2,1); plot(t,x,'k'); axis([0 1 -1.1 1.1]); xlabel('nT_s'); ylabel('x(nT_s)');grid;
 ax = gca;
 ax.XAxisLocation = 'origin';
@@ -36,7 +42,7 @@ ax.YAxisLocation = 'origin';
 % En este caso es un codigo binario.
 L = 2^n;
 ranges = linspace(-xmax,xmax,L+1) % Niveles de cuantización
-figure(2);
+figure(3);
 plot(t,x,"color","black"); %Función xt
 title("Sinusoidal y Sinusoidal cuantificada");
 xlabel("x");
@@ -53,7 +59,7 @@ for i=0:L-1
   txt = strcat(integer,", (",binary,")"); %Ytick de la codificación
   text(1.01,(ranges(i+1)+ranges(i+2))/2,txt) %Puntos medios (Niveles de cuantificación)
 end
-figure(3);
+figure(4);
 
 
 q=floor(L*((x+xmax)/(2*xmax)));
@@ -120,4 +126,25 @@ ax.YAxisLocation = 'origin';
 grid;
 
 %RECUPERANDO LA SEÑAL
-finalbinary
+finalbinary;
+
+deMod = t;
+w = 2*pi*fs;
+
+% Recorrer cada una de las muestras 
+for i = 1:length(t)
+  deMod(i) = 0;
+  %Ciclo for para aplicar la sumatoria de la formula 5.2
+  for k = 1:length(t)
+    deMod(i) = deMod(i) + (x(i) * sinc(w*(t(i)-t(k))));
+    deMod(i) = deMod(i) + (x(i) * sinc(w*(t(i)+t(k))));
+  end
+end
+
+figure(5)
+%Grafica de la demodulación
+plot(t, deMod); xlabel("t"); ylabel("m(t)"); title("Resultado demodulado");
+ax = gca;
+ax.XAxisLocation = 'origin';
+ax.YAxisLocation = 'origin';
+grid;
