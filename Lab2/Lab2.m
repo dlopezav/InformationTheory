@@ -4,9 +4,9 @@ t0=2*pi;                                                                     % d
 Ts=1/10; fs=1/Ts;                                                 % intervalo de muestreo y frecuencia de muestreo
 t=[0:Ts:t0];                                                           % vector de tiempo
 fm=2;
-%fs = 50, fs>fM
-%x=2*sin(t)+3*sin(3*t);                                % sinusoidal muestreada y su transformada de Fourier
-x=sin(t)
+%fs = 10, fs>fM
+x=2*sin(t)+3*sin(3*t);                                % sinusoidal muestreada y su transformada de Fourier
+%x=sin(t)
 figure(1)
 stem(t,x)
 xlabel('Tiempo'); ylabel('x(nT_s)'); title('Muestreo');grid;
@@ -15,14 +15,12 @@ ax.XAxisLocation = 'origin';
 ax.YAxisLocation = 'origin';
 
 %Cuantización
-xmax=1
-n=3
+xmax=4 %Amplitud
+n=3 %2^n # de niveles de cuantización
 xq=cuantUniforme(x,xmax,n);            % sinusoidal cuantizada y su transformada de Fourier
-
-
 figure(2);
 subplot(2,1,1); stem(t,x,'k');xlabel('nT_s'); ylabel('x(nT_s)');grid;
-title("Sinusoidal muestreada");
+title("Sinusoidal muestreada"); %Gráfica sinusoidal muestrada
 ax = gca;
 ax.XAxisLocation = 'origin';
 ax.YAxisLocation = 'origin';
@@ -30,7 +28,7 @@ ax = gca;
 ax.XAxisLocation = 'origin';
 ax.YAxisLocation = 'origin';
 subplot(2,1,2); stem(t,xq,'k');  xlabel('nT_s'); ylabel('x_q(nT_s)');grid;
-title("Sinusoidal cuantizada");
+title("Sinusoidal cuantizada"); %Gráfica sinusoidal cuantizada
 ax = gca;
 ax.XAxisLocation = 'origin';
 ax.YAxisLocation = 'origin';
@@ -38,8 +36,8 @@ ax.YAxisLocation = 'origin';
 
 % Codificacion: Pasar el valor cuantizado a un codigo numerico.
 % En este caso es un codigo binario.
-L = 2^n;
-ranges = linspace(-xmax,xmax,L+1) % Niveles de cuantización
+L = 2^n;  % de niveles de cuantización
+ranges = linspace(-xmax,xmax,L+1) 
 figure(3);
 plot(t,x,"color","black"); %Función xt
 title("Sinusoidal cuantificada CODIFICACIÓN");

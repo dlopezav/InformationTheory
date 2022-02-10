@@ -43,14 +43,14 @@ for i = 0: npalabras-1
     palabras = [palabras;res];
 end
 
-menu = input('Ingrese una opción:\n 1 Codificar\n 2 Decodificar');
+idx = input('\n 1 Codificar\n 2 Decodificar');
 
-switch menu
+switch idx
     case 1 
         %Codificar
         d = input('Ingrese el vector a codificar: '); %Ejemplo d5
         fila = d(1)*4+d(2)*2+d(3)*1+1;                        %Binario a Decimal
-        disp('La palabra codificada es: ');
+        disp('Palabra codificada:');
         disp(palabras(fila, :));                              %Palabra Codificada
     case 2
         r = input('Ingrese la palabra a decodificar: ');
@@ -70,7 +70,6 @@ switch menu
                 error = i;
             end
         end
-
         if error > 0
             if r(error) == 0
                 r(error) = 1;
@@ -79,11 +78,9 @@ switch menu
             end
         end
 
-        disp('El codigo final es: ');
+        disp('Codigo final: ');
         disp(r);
     
     otherwise
-
-        disp('No es una opcion valida ');
-        
+        disp('Ingrese un número válido');
 end
